@@ -180,8 +180,12 @@ func (server *Server) GetStats() Stats {
 	return *server.Stats
 }
 
-func (server *Server) ListenAndServe(listenString string) error {
-	ln, err := net.Listen("tcp", listenString)
+func (server *Server) ListenAndServe(listenString string, args ...string) error {
+	network := "tcp"
+	if (len(args) > 0) {
+		network = args[0]
+	}
+	ln, err := net.Listen(network, listenString)
 	if err != nil {
 		return err
 	}
